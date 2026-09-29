@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>LG Weight Capture</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- ============================================================ SESSION -->
+<section id="scr-session" class="screen active">
+  <header class="bar"><h1>New session</h1><span id="ver" class="dim"></span></header>
+  <div class="pad">
+    <div id="resume" class="card warn hidden">
+      <strong>Unfinished session</strong>
+      <p id="resume-detail" class="dim"></p>
+      <div class="row">
+        <button class="btn" id="btn-resume">Resume</button>
+        <button class="btn ghost" id="btn-discard">Discard</button>
+      </div>
+    </div>
+
+    <label>House
+      <input id="f-house" type="text" inputmode="text" placeholder="e.g. 2" autocomplete="off">
+    </label>
+    <label>Batch / flock
+      <input id="f-batch" type="text" placeholder="e.g. B14" autocomplete="off">
+    </label>
+    <label>Age (days)
+      <input id="f-age" type="number" inputmode="numeric" min="0" max="70" placeholder="e.g. 21">
+    </label>
+    <label>Date
+      <input id="f-date" type="date">
+    </label>
+    <label>Board (marker id)
+      <select id="f-board">
+        <option value="0">Board 1 (id 0)</option>
+        <option value="1">Board 2 (id 1)</option>
+        <option value="2">Board 3 (id 2)</option>
+        <option value="3">Board 4 (id 3)</option>
+        <option value="-1">Any board</option>
+      </select>
+    </label>
+    <label>Marker size, measured (mm)
+      <input id="f-mm" type="number" inputmode="decimal" step="0.1" value="150">
+      <small class="dim">Measure the printed black square. Do not assume 150.</small>
+    </label>
+
+    <button class="btn primary big" id="btn-start">Start session</button>
+    <button class="btn ghost" id="btn-past">Past sessions</button>
+    <p class="dim small" id="storage-note"></p>
+  </div>
+</section>
+
+<!-- ============================================================ CAPTURE -->
+<section id="scr-capture" class="screen">
+  <div class="cam-wrap">
+    <video id="video" playsinline muted autoplay></video>
+    <canvas id="overlay"></canvas>
+    <div id="chip" class="chip">starting camera…</div>
+    <div class="cam-top">
+      <button class="icon" id="btn-back-cap">&#10005;</button>
+      <span id="cap-info" class="dim small"></span>
+    </div>
+  </div>
+  <div class="cam-bar">
+    <div class="count"><span id="cap-count">0</span><small>birds</small></div>
+    <button id="btn-shoot" class="shutter" aria-label="Capture"></button>
+    <button class="btn ghost" id="btn-review">Review</button>
+  </div>
+</section>
+
+<!-- ============================================================= WEIGHT -->
+<section id="scr-weight" class="screen">
+  <header class="bar"><h1>Weight</h1></header>
+  <div class="weigh">
+    <img id="shot" alt="captured bird">
+    <div id="shot-status" class="chip inline"></div>
+    <div class="readout"><span id="w-val">0</span><small>g</small></div>
+    <div class="keys">
+      <button>1</button><button>2</button><button>3</button>
+      <button>4</button><button>5</button><button>6</button>
+      <button>7</button><button>8</button><button>9</button>
+      <button data-k="del">&#9003;</button><button>0</button><button data-k="clr">C</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost" id="btn-retake">Retake</button>
+      <button class="btn primary" id="btn-save">Save bird</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= REVIEW -->
+<section id="scr-review" class="screen">
+  <header class="bar">
+    <button class="icon" id="btn-back-rev">&#8592;</button>
+    <h1>Session</h1>
+  </header>
+  <div class="pad">
+    <div id="stats" class="card"></div>
+    <div id="list" class="list"></div>
+    <button class="btn primary big" id="btn-finish">Finish &amp; write CSV</button>
+    <button class="btn ghost" id="btn-more">Capture more</button>
+  </div>
+</section>
+
+<!-- =============================================================== DONE -->
+<section id="scr-done" class="screen">
+  <header class="bar"><h1>Session saved</h1></header>
+  <div class="pad">
+    <div class="card ok" id="done-detail"></div>
+    <div class="card">
+      <strong>Next</strong>
+      <p class="dim">Plug the phone into the PC and copy the whole folder from
+      <code>Downloads/LG Farms/</code>. Keep the CSV with the images.</p>
+    </div>
+    <button class="btn primary big" id="btn-new">New session</button>
+  </div>
+</section>
+
+<div id="toast" class="toast"></div>
+
+<script src="lib/aruco-core.js"></script>
+<script src="lib/aruco_4x4_50.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
